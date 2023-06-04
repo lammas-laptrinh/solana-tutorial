@@ -1,5 +1,6 @@
 # 🤔 What's Solana?
 
+- solana là một trong những blockchain lớn nhất thế giới.
 ### Programs (Solana Programs)
 
 - Trên solana smart contract được gọi là programs.

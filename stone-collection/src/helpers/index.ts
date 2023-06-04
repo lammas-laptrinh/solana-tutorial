@@ -1,0 +1,18 @@
+export const dummysStones = [
+  "https://image.lexica.art/full_jpg/dc78b49a-bdda-4cc6-98af-0af7c3467409",
+  "https://image.lexica.art/full_jpg/6832e359-3520-4c17-86c6-fb3ddb5692a5",
+  "https://image.lexica.art/full_jpg/3498aa1a-71a7-4d36-9976-09e2d7162435",
+  "https://image.lexica.art/full_jpg/ca9c1728-9c3a-4327-8f80-5438dc178b6d",
+  "https://image.lexica.art/full_jpg/44597a87-09cd-46be-9209-491761961faf",
+  "https://image.lexica.art/full_jpg/43f85fa9-6f19-47a5-938a-f93a52e1fda2",
+  "https://image.lexica.art/full_jpg/18ddb610-326c-4cae-b8a5-b4c3c59c6d58",
+  "https://image.lexica.art/full_jpg/2a4653e4-fe58-4603-bcf6-0a00078654d2",
+  "https://image.lexica.art/full_jpg/1b8c8c0c-c16b-43ed-9a32-155be59ad10d",
+  "https://image.lexica.art/full_jpg/53dd01af-5291-479c-a8ca-755ddb6e6c8a",
+  "https://image.lexica.art/full_jpg/4888e7ff-96cc-4f28-a02b-1137bdc2dc1d",
+  "https://image.lexica.art/full_jpg/61dbd749-e487-4322-b54a-cbb9282e6fbe",
+  "https://image.lexica.art/full_jpg/6c10e7db-6f6c-4bda-8e31-12fd00916357",
+  "https://image.lexica.art/full_jpg/3ddbd6a5-893c-408c-a8c5-d0d8ea90b786",
+  "https://image.lexica.art/full_jpg/b8d4d94f-a559-454d-8282-d68bce601ce7",
+  "https://image.lexica.art/full_jpg/52d8936f-55b1-4347-9e1f-0502db905eed",
+];
