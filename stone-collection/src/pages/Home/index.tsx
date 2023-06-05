@@ -1,13 +1,20 @@
 import HomeStyle from "./home.module.css";
 import Banner from "../../assets/banner.jpg";
 import useHome from "./useHome";
-import { Button } from "antd";
+import { Button, Input, Space } from "antd";
 
 import { WalletOutlined } from "@ant-design/icons";
 import Grid from "../../components/Grid";
 
 export default function Home() {
-  const { isLoading, walletAddress, onConnectWallet } = useHome();
+  const {
+    isLoading,
+    walletAddress,
+    inputText,
+    onInputChange,
+    onSubmit,
+    onConnectWallet,
+  } = useHome();
 
   return (
     <div className={HomeStyle.container}>
@@ -19,7 +26,21 @@ export default function Home() {
           <WalletOutlined /> Connect to wallet
         </Button>
       )}
-      {walletAddress !== "" && <Grid />}
+
+      {walletAddress !== "" && (
+        <Space direction="vertical" size="middle">
+          <Space.Compact style={{ width: "40%" }}>
+            <Input
+              value={inputText}
+              onChange={onInputChange}
+            />
+            <Button onClick={onSubmit} type="primary">
+              Submit
+            </Button>
+          </Space.Compact>
+          <Grid />
+        </Space>
+      )}
     </div>
   );
 }

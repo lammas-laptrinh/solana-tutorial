@@ -3,6 +3,7 @@ import { checkIfWalletIsConnected } from "../../utils";
 
 export default function useHome() {
   const [isLoading, setLoading] = React.useState(false);
+  const [inputText, setInputText] = React.useState("");
   const [walletAddress, setWalletAddress] = React.useState<string>("");
 
   const onConnectWallet = async () => {
@@ -16,7 +17,12 @@ export default function useHome() {
       setLoading(false);
     }
   };
-
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+  };
+  const onSubmit = () => {
+    console.log("inputText", inputText);
+  };
   React.useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -26,7 +32,10 @@ export default function useHome() {
   }, []);
   return {
     isLoading,
+    inputText,
     walletAddress,
+    onSubmit,
+    onInputChange,
     onConnectWallet,
   };
 }

@@ -70,7 +70,10 @@ const checkIfWalletIsConnected = async () => {
 ### 🛍 Render connect to wallet button
 
 - tạo một state để lưu trữ địa chỉ ví
-  ` const [walletAddress, setWalletAddress] = React.useState<string>("");`
+
+```tsx
+const [walletAddress, setWalletAddress] = React.useState<string>("");
+```
 
 - tạo một button bằng ant
 
@@ -132,4 +135,82 @@ export const dummysStones = [
 
 ### 🧪 Displaying test data
 
-### 🔤 Creating a GIF input box
+- Tạo một component để render danh sách hình ảnh của collection
+
+```tsx
+import { Col, Image, Row } from "antd";
+import { dummysStones } from "../../helpers";
+
+export default function Grid() {
+  return (
+    <Row justify="space-around" align="middle" gutter={[6, 6]}>
+      {dummysStones.map((source, index) => {
+        return (
+          <Col
+            className="d-flex justify-content-center"
+            key={index}
+            xs={{ order: 1, span: 12 }}
+            sm={{ order: 2, span: 12 }}
+            md={{ order: 3 }}
+            lg={{ order: 4, span: 6 }}
+          >
+            <Image
+              preview
+              className="rounded-xs"
+              width="100%"
+              height="auto"
+              src={source}
+              alt={source}
+            />
+          </Col>
+        );
+      })}
+    </Row>
+  );
+}
+```
+
+- Kế tiếp gọi Component này ở file `App.tsx` hoặc bất cứ file nào cần sử dụng nó.
+- Chỉ hiển thị grid này khi người dùng đã kết nối wallet vì sau này ta sẽ lấy dữ liệu này trên account của solana nếu không được kết nối sẽ không lấy được dữ liệu.
+
+```tsx
+{
+  walletAddress !== "" && <Grid />;
+}
+```
+
+### 🔤 Creating a input box
+
+- Tạo một Input để người đùng có thể thêm hình ảnh vào collection của mình.
+
+```tsx
+import { Input, Space } from "antd";
+{
+  walletAddress !== "" && (
+    <Space direction="vertical" size="middle">
+      <Space.Compact style={{ width: "40%" }}>
+        <Input value={inputText} onChange={onInputChange} />
+        <Button onClick={onSubmit} type="primary">
+          Submit
+        </Button>
+      </Space.Compact>
+
+      <Grid />
+    </Space>
+  );
+}
+```
+
+- thêm state chứa giá trị của Input và hai function để tương tác với nó.
+
+```ts
+const [inputText, setInputText] = React.useState("");
+
+const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setInputText(e.target.value);
+};
+
+const onSubmit = () => {
+  console.log("inputText", inputText);
+};
+```
