@@ -1,10 +1,14 @@
 import { Col, Image, Row } from "antd";
 import { dummysStones } from "../../helpers";
 
-export default function Grid() {
+type GridProps = {
+  stones?: Array<string>;
+};
+
+export default function Grid({ stones = dummysStones }: GridProps) {
   return (
     <Row justify="space-around" align="middle" gutter={[6, 6]}>
-      {dummysStones.map((source, index) => {
+      {stones.map((source, index) => {
         return (
           <Col
             className="d-flex justify-content-center"

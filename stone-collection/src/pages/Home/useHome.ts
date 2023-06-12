@@ -1,5 +1,9 @@
 import React from "react";
-import { checkIfWalletIsConnected } from "../../utils";
+import {
+  addItem,
+  checkIfWalletIsConnected,
+  createGifAccount,
+} from "../../utils";
 
 export default function useHome() {
   const [isLoading, setLoading] = React.useState(false);
@@ -15,14 +19,14 @@ export default function useHome() {
       console.log("Connected with Public Key:", response.publicKey.toString());
       setWalletAddress(response.publicKey.toString());
       setLoading(false);
+      const stones = await createGifAccount();
+      console.log("stones", stones);
     }
   };
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
-  const onSubmit = () => {
-    console.log("inputText", inputText);
-  };
+  const onSubmit = () => addItem(inputText);
   React.useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();

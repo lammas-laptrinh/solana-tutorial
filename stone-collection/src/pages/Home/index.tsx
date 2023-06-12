@@ -29,7 +29,7 @@ export default function Home() {
 
       {walletAddress !== "" && (
         <Space direction="vertical" size="middle">
-          <Space.Compact style={{ width: "40%" }}>
+          <Space.Compact style={{ width: "80%" }}>
             <Input
               value={inputText}
               onChange={onInputChange}
@@ -38,7 +38,7 @@ export default function Home() {
               Submit
             </Button>
           </Space.Compact>
-          <Grid />
+          <Grid stones={[]} />
         </Space>
       )}
     </div>

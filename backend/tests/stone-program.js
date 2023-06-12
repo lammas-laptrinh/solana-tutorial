@@ -1,39 +1,55 @@
-const {
-  setProvider,
-  AnchorProvider,
-  workspace,
-  web3,
-} = require("@coral-xyz/anchor");
+const anchor = require("@project-serum/anchor");
+const { SystemProgram } = anchor.web3;
 
-describe("stone-programs", () => {
-  // Configure the client to use the local cluster.
-  setProvider(AnchorProvider.env());
+const main = async () => {
+  console.log("🚀 Starting test...");
 
-  it("Is initialized!", async () => {
-    // Add your test here.
-    const program = workspace.StonePrograms;
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
 
-    // Create an account keypair for our program to use.
-    const baseAccount = web3.Keypair.generate();
+  const program = anchor.workspace.StonePrograms;
 
-    let tx = await program.rpc.startStuffOff({
+  const baseAccount = anchor.web3.Keypair.generate();
+  let tx = await program.rpc.initialize({
+    accounts: {
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+      systemProgram: SystemProgram.programId,
+    },
+    signers: [baseAccount],
+  });
+  console.log("📝 Your transaction signature", tx);
+
+  let account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+  console.log("👀 GIF Count", account.totalGifs.toString());
+
+  // Call add_gif!
+  await program.rpc.addGif(
+    "https://image.lexica.art/full_jpg/508c43c9-2ff3-41b3-b7ee-2fdc6b2ffacc",
+    {
       accounts: {
         baseAccount: baseAccount.publicKey,
         user: provider.wallet.publicKey,
-        systemProgram: SystemProgram.programId,
       },
-      signers: [baseAccount],
-    });
+    }
+  );
 
-    console.log("📝 Your transaction signature", tx);
+  // Get the account again to see what changed.
+  account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+  console.log("👀 GIF Count", account.totalGifs.toString());
+  // Access gif_list on the account!
+  console.log("account", account);
+  console.log("👀 GIF List", account.gifList);
+};
 
-    // Fetch data from the account.
-    let account = await program.account.baseAccount.fetch(
-      baseAccount.publicKey
-    );
-    console.log("👀 GIF Count", account.totalGifs.toString());
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
 
-    // const tx = await program.methods.initialize().rpc();
-    // console.log("Your transaction signature", tx);
-  });
-});
+runMain();
