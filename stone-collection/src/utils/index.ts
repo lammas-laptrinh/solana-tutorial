@@ -1,6 +1,11 @@
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Program, AnchorProvider, web3 } from "@project-serum/anchor";
+import kp from "../helpers/keypair.json";
 // import idl from "./idl/stone_programs.json";
+type Item = {
+  gifLink: string;
+  userAddress: unknown;
+};
 
 export const checkIfWalletIsConnected = async () => {
   if (window?.solana?.isPhantom) {
@@ -15,10 +20,12 @@ export const checkIfWalletIsConnected = async () => {
 };
 
 // SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Create a keypair for the account that will hold the GIF data.
-const baseAccount = Keypair.generate();
+const arr = Object.values(kp._keypair.secretKey);
+const secret = new Uint8Array(arr);
+const baseAccount = web3.Keypair.fromSecretKey(secret);
 
 // This is the address of your solana program, if you forgot, just run solana address -k target/deploy/myepicproject-keypair.json
 const programID = new PublicKey("B4JQj82q7VaHfXb6JHTXwM46feQ7mSeSEki7JCcEeEGj");
@@ -65,7 +72,6 @@ export const getProgram = async () => {
   // Get metadata about your solana program
 
   const idl = await Program.fetchIdl(programID, getProvider());
-  console.log("idl", idl);
 
   // Create a program that you can call
   if (idl) {
@@ -74,7 +80,7 @@ export const getProgram = async () => {
   return null;
 };
 
-export const getGifList = async () => {
+export const getGifList = async (): Promise<Item[] | null> => {
   try {
     const program = await getProgram();
     if (program) {
@@ -85,9 +91,10 @@ export const getGifList = async () => {
       console.log("Got the account", account);
       return account.gifList;
     }
+    return [];
   } catch (error) {
     console.log("Error in getGifList: ", error);
-    return [];
+    return null;
   }
 };
 
@@ -95,9 +102,6 @@ export const createGifAccount = async () => {
   try {
     const provider = getProvider();
     const program = await getProgram();
-
-    console.log("program", program);
-
     if (program) {
       console.log("ping");
       await program.rpc.initialize({
@@ -114,7 +118,9 @@ export const createGifAccount = async () => {
       );
       return await getGifList();
     }
+    return [];
   } catch (error) {
     console.log("Error creating BaseAccount account:", error);
+    return [];
   }
 };
